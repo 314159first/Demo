@@ -1,0 +1,1886 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>圣诞快乐 · Christmas Wonderland</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --red: #ff4b5c;
+      --dark-red: #c0392b;
+      --green: #2ecc71;
+      --dark-green: #145a32;
+      --gold: #f1c40f;
+      --bg: #0b1530;
+      --bg-soft: rgba(13, 24, 56, 0.9);
+      --card-bg: rgba(255, 255, 255, 0.08);
+      --text-main: #ffffff;
+      --text-muted: #d0d7ff;
+      --shadow-soft: 0 18px 40px rgba(0, 0, 0, 0.45);
+      --radius-xl: 22px;
+      --radius-xxl: 28px;
+      --transition-fast: 0.2s ease-out;
+      --transition-med: 0.35s ease;
+    }
+
+    body.dark-theme {
+      --bg: #050816;
+      --bg-soft: rgba(5, 8, 22, 0.96);
+      --card-bg: rgba(13, 24, 56, 0.96);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+        sans-serif;
+      color: var(--text-main);
+      background:
+        radial-gradient(circle at 10% 0, rgba(255, 255, 255, 0.05) 0, transparent 45%),
+        radial-gradient(circle at 90% 0, rgba(255, 255, 255, 0.05) 0, transparent 45%),
+        linear-gradient(135deg, #050816 0%, #0b1530 40%, #1b284f 80%, #2f3640 100%);
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    main {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 90px 16px 80px;
+    }
+
+    /* 顶部导航 */
+    header {
+      position: fixed;
+      inset: 0 0 auto 0;
+      z-index: 20;
+      backdrop-filter: blur(16px);
+      background: linear-gradient(
+        to bottom,
+        rgba(5, 8, 22, 0.96),
+        rgba(5, 8, 22, 0.75),
+        transparent
+      );
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .nav-inner {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 10px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-size: 14px;
+    }
+
+    .logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 0deg,
+        #ff4b5c,
+        #f1c40f,
+        #2ecc71,
+        #3498db,
+        #ff4b5c
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 0 18px rgba(255, 255, 255, 0.6);
+      font-size: 18px;
+    }
+
+    nav ul {
+      display: flex;
+      list-style: none;
+      gap: 12px;
+      font-size: 13px;
+      flex-wrap: wrap;
+    }
+
+    nav li a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid transparent;
+      transition: background var(--transition-fast),
+        transform var(--transition-fast),
+        border-color var(--transition-fast);
+    }
+
+    nav li a:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(241, 196, 15, 0.7);
+      transform: translateY(-1px);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chip-btn {
+      font-size: 11px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: rgba(0, 0, 0, 0.1);
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      cursor: pointer;
+      transition: background var(--transition-fast),
+        transform var(--transition-fast),
+        border-color var(--transition-fast);
+    }
+
+    .chip-btn:hover {
+      background: rgba(255, 255, 255, 0.08);
+      border-color: rgba(241, 196, 15, 0.9);
+      transform: translateY(-0.5px);
+    }
+
+    /* 通用按钮 */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      border-radius: 999px;
+      padding: 10px 18px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      letter-spacing: 0.03em;
+      text-transform: uppercase;
+      box-shadow: var(--shadow-soft);
+      background: linear-gradient(135deg, var(--red), var(--dark-red));
+      color: #fff;
+      transition: transform var(--transition-fast),
+        box-shadow var(--transition-fast),
+        filter var(--transition-fast);
+    }
+
+    .btn.secondary {
+      background: linear-gradient(135deg, var(--green), var(--dark-green));
+    }
+
+    .btn.ghost {
+      background: rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 0 rgba(0, 0, 0, 0);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .btn:hover {
+      transform: translateY(-2px) scale(1.01);
+      filter: brightness(1.05);
+    }
+
+    .btn-icon {
+      font-size: 16px;
+    }
+
+    /* Hero 区域 */
+    #hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 26px;
+      margin-top: 24px;
+      align-items: center;
+    }
+
+    .hero-text {
+      padding: 24px 22px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-xxl);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-text::before {
+      content: "";
+      position: absolute;
+      inset: -40%;
+      background:
+        radial-gradient(circle at 0 0, rgba(255, 75, 92, 0.18), transparent 55%),
+        radial-gradient(circle at 100% 0, rgba(46, 204, 113, 0.12), transparent 50%),
+        radial-gradient(circle at 0 100%, rgba(241, 196, 15, 0.16), transparent 55%);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      font-size: 11px;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: clamp(28px, 4vw, 36px);
+      line-height: 1.18;
+      margin-bottom: 10px;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-title span {
+      background: linear-gradient(135deg, #ffb347, #ffcc33, #ff4b5c);
+      -webkit-background-clip: text;
+      color: transparent;
+    }
+
+    .hero-subtitle {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 14px;
+      max-width: 470px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .hero-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 14px;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .hero-meta span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-meta-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      background: #2ecc71;
+      box-shadow: 0 0 10px rgba(46, 204, 113, 0.8);
+    }
+
+    /* 右侧圣诞卡片 */
+    .hero-card {
+      position: relative;
+      border-radius: var(--radius-xxl);
+      padding: 20px 18px 18px;
+      background: radial-gradient(circle at 20% 0, #ff7675 0, #c0392b 40%, #0b1530 100%);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      color: #fff;
+    }
+
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      width: 220%;
+      height: 220%;
+      background-image:
+        radial-gradient(circle at 10% 20%, rgba(255, 255, 255, 0.20) 0, transparent 45%),
+        radial-gradient(circle at 80% 10%, rgba(255, 255, 255, 0.15) 0, transparent 45%);
+      inset: auto;
+      left: -60%;
+      top: -100%;
+      opacity: 0.6;
+      pointer-events: none;
+    }
+
+    .hero-card-inner {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero-card-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .hero-card-left h2 {
+      font-size: 18px;
+      margin-bottom: 6px;
+    }
+
+    .hero-card-left p {
+      font-size: 12px;
+      opacity: 0.9;
+    }
+
+    .tree {
+      position: relative;
+      width: 90px;
+      height: 110px;
+      margin-left: auto;
+      filter: drop-shadow(0 12px 20px rgba(0, 0, 0, 0.6));
+    }
+
+    .tree-layer {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 6px;
+      border-left: 45px solid transparent;
+      border-right: 45px solid transparent;
+      border-bottom: 40px solid #1abc9c;
+    }
+
+    .tree-layer:nth-child(1) {
+      top: 0;
+      border-bottom-color: #2ecc71;
+    }
+
+    .tree-layer:nth-child(2) {
+      top: 25px;
+    }
+
+    .tree-layer:nth-child(3) {
+      top: 50px;
+      border-bottom-color: #16a085;
+    }
+
+    .tree-trunk {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 26px;
+      height: 22px;
+      background: #7b4b2a;
+      border-radius: 4px;
+    }
+
+    .tree-star {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 18px;
+      filter: drop-shadow(0 0 4px rgba(241, 196, 15, 0.9));
+    }
+
+    .tree-light {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #f1c40f;
+      box-shadow: 0 0 4px rgba(255, 255, 200, 0.9);
+      animation: twinkle 1.8s ease-in-out infinite alternate;
+    }
+
+    .tree-light:nth-child(1) { top: 20px; left: 40%; }
+    .tree-light:nth-child(2) { top: 35px; left: 60%; animation-delay: .3s; }
+    .tree-light:nth-child(3) { top: 50px; left: 30%; animation-delay: .6s; }
+    .tree-light:nth-child(4) { top: 65px; left: 65%; animation-delay: .9s; }
+    .tree-light:nth-child(5) { top: 80px; left: 35%; animation-delay: 1.2s; }
+
+    @keyframes twinkle {
+      from { transform: scale(0.9); opacity: 0.7; }
+      to { transform: scale(1.15); opacity: 1; }
+    }
+
+    .hero-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .hero-mini-badges {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .mini-badge {
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      font-size: 11px;
+    }
+
+    /* 分段标题 */
+    .section {
+      margin-top: 40px;
+      padding: 20px 18px;
+      background: var(--bg-soft);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-soft);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 14px;
+      gap: 10px;
+    }
+
+    .section-title {
+      font-size: 18px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-title span {
+      font-size: 22px;
+    }
+
+    .section-subtitle {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* 倒计时 */
+    .countdown-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(70px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .countdown-item {
+      padding: 10px 8px;
+      border-radius: 18px;
+      background: radial-gradient(circle at 50% 0, rgba(255, 255, 255, 0.16), transparent 60%),
+        rgba(0, 0, 0, 0.4);
+      text-align: center;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .countdown-number {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    .countdown-label {
+      font-size: 11px;
+      opacity: 0.8;
+    }
+
+    .countdown-footer {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 8px;
+    }
+
+    /* 心愿墙 */
+    .wishlist-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 0.95fr) minmax(0, 1.05fr);
+      gap: 16px;
+    }
+
+    .wishlist-form {
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      display: grid;
+      gap: 10px;
+      font-size: 13px;
+    }
+
+    .form-row {
+      display: grid;
+      gap: 4px;
+    }
+
+    .form-row-inline {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    label {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    input[type="text"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      font-size: 13px;
+      outline: none;
+      transition: border-color var(--transition-fast),
+        box-shadow var(--transition-fast);
+    }
+
+    textarea {
+      border-radius: 16px;
+      min-height: 70px;
+      resize: vertical;
+    }
+
+    input:focus,
+    textarea:focus,
+    select:focus {
+      border-color: var(--gold);
+      box-shadow: 0 0 0 1px rgba(241, 196, 15, 0.5);
+    }
+
+    .toggle-group {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 12px;
+    }
+
+    .wishlist-list {
+      max-height: 200px;
+      overflow: auto;
+      padding-right: 4px;
+      display: grid;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .wish-card {
+      padding: 8px 9px;
+      border-radius: 15px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      display: grid;
+      gap: 3px;
+    }
+
+    .wish-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      font-size: 11px;
+    }
+
+    .wish-name {
+      font-weight: 600;
+    }
+
+    .wish-badge {
+      padding: 2px 6px;
+      border-radius: 999px;
+      font-size: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      background: rgba(46, 204, 113, 0.18);
+    }
+
+    .wish-badge.naughty {
+      background: rgba(255, 75, 92, 0.24);
+    }
+
+    .wish-text {
+      font-size: 12px;
+    }
+
+    .wish-time {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    /* 圣诞日程时间线 */
+    .timeline {
+      position: relative;
+      margin-top: 10px;
+      padding-left: 12px;
+      border-left: 1px dashed rgba(255, 255, 255, 0.2);
+    }
+
+    .timeline-item {
+      position: relative;
+      padding: 8px 0 8px 12px;
+    }
+
+    .timeline-bullet {
+      position: absolute;
+      left: -7px;
+      top: 10px;
+      width: 12px;
+      height: 12px;
+      border-radius: 999px;
+      background: var(--gold);
+      box-shadow: 0 0 0 3px rgba(241, 196, 15, 0.25);
+    }
+
+    .timeline-title {
+      font-size: 13px;
+      margin-bottom: 1px;
+    }
+
+    .timeline-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-bottom: 3px;
+    }
+
+    .timeline-desc {
+      font-size: 11px;
+      opacity: 0.9;
+    }
+
+    /* 画廊 */
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .gallery-item {
+      position: relative;
+      overflow: hidden;
+      border-radius: 18px;
+      cursor: pointer;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      background: radial-gradient(circle at 0 0, #ff4b5c 0, #c0392b 40%, #0b1530 100%);
+      min-height: 110px;
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: brightness(0.92);
+      transition: transform var(--transition-med), filter var(--transition-med);
+    }
+
+    .gallery-item::after {
+      content: attr(data-label);
+      position: absolute;
+      inset: auto 10px 10px 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 11px;
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(4px);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.06);
+      filter: brightness(1);
+    }
+
+    /* 画廊弹窗 */
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 30;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-inner {
+      max-width: 90vw;
+      max-height: 80vh;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0, 0, 0, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: #000;
+      position: relative;
+    }
+
+    .lightbox-inner img {
+      max-width: 100%;
+      max-height: 80vh;
+      display: block;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.7);
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.5);
+      padding: 4px 8px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    /* 音乐区 */
+    .music-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: 16px;
+      align-items: center;
+    }
+
+    .playlist {
+      display: grid;
+      gap: 8px;
+      font-size: 12px;
+      max-height: 180px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .song {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      background: rgba(0, 0, 0, 0.4);
+      cursor: pointer;
+      transition: background var(--transition-fast), transform var(--transition-fast);
+    }
+
+    .song:hover {
+      background: rgba(255, 255, 255, 0.05);
+      transform: translateY(-1px);
+    }
+
+    .song.active {
+      background: linear-gradient(135deg, var(--green), var(--dark-green));
+    }
+
+    .song-main {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .song-title {
+      font-weight: 600;
+    }
+
+    .song-artist {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .song-tag {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.4);
+      background: rgba(0, 0, 0, 0.3);
+    }
+
+    .music-player {
+      padding: 12px;
+      border-radius: 18px;
+      background: rgba(0, 0, 0, 0.5);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      font-size: 12px;
+    }
+
+    .music-player-title {
+      font-size: 13px;
+      margin-bottom: 4px;
+    }
+
+    audio {
+      width: 100%;
+      margin-top: 6px;
+    }
+
+    /* 待办清单 */
+    .todo-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 16px;
+    }
+
+    .todo-input {
+      display: flex;
+      gap: 8px;
+      margin-top: 6px;
+    }
+
+    .todo-input input {
+      flex: 1;
+    }
+
+    .todo-list {
+      margin-top: 10px;
+      display: grid;
+      gap: 6px;
+      font-size: 12px;
+      max-height: 200px;
+      overflow: auto;
+      padding-right: 4px;
+    }
+
+    .todo-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      padding: 7px 9px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    .todo-item.done {
+      opacity: 0.6;
+      text-decoration: line-through;
+    }
+
+    .todo-item button {
+      border-radius: 999px;
+      border: none;
+      padding: 3px 6px;
+      font-size: 11px;
+      cursor: pointer;
+      background: rgba(0, 0, 0, 0.4);
+      color: #fff;
+    }
+
+    /* 联系区 */
+    .contact-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+      gap: 16px;
+    }
+
+    .contact-note {
+      font-size: 12px;
+      color: var(--text-muted);
+      margin-top: 6px;
+      line-height: 1.5;
+    }
+
+    .contact-highlights {
+      display: grid;
+      gap: 8px;
+      font-size: 12px;
+      margin-top: 6px;
+    }
+
+    .highlight-card {
+      padding: 8px 10px;
+      border-radius: 16px;
+      background: rgba(0, 0, 0, 0.45);
+      border: 1px solid rgba(255, 255, 255, 0.16);
+    }
+
+    footer {
+      margin-top: 20px;
+      padding: 12px;
+      font-size: 11px;
+      text-align: center;
+      color: var(--text-muted);
+    }
+
+    /* 飘雪效果 */
+    .snow-container {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      overflow: hidden;
+      z-index: 5;
+    }
+
+    .snowflake {
+      position: absolute;
+      top: -10px;
+      color: #fff;
+      opacity: 0.8;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.8));
+      user-select: none;
+      animation-name: fall;
+      animation-timing-function: linear;
+      animation-iteration-count: infinite;
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(110vh) translateX(var(--x-move, 0));
+      }
+    }
+
+    /* 工具按钮 */
+    .floating-tools {
+      position: fixed;
+      bottom: 18px;
+      right: 16px;
+      z-index: 25;
+      display: grid;
+      gap: 8px;
+    }
+
+    .floating-btn {
+      border-radius: 999px;
+      padding: 9px 10px;
+      font-size: 11px;
+      border: none;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5);
+      transition: background var(--transition-fast),
+        transform var(--transition-fast),
+        opacity var(--transition-fast);
+    }
+
+    .floating-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      transform: translateY(-1px);
+    }
+
+    .floating-btn.hidden {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(8px);
+    }
+
+    /* 响应式 */
+    @media (max-width: 900px) {
+      #hero {
+        grid-template-columns: minmax(0, 1fr);
+      }
+      .hero-card {
+        order: -1;
+      }
+      .wishlist-layout,
+      .music-layout,
+      .todo-layout,
+      .contact-grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    @media (max-width: 640px) {
+      .nav-inner {
+        flex-wrap: wrap;
+      }
+      nav ul {
+        justify-content: flex-start;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+      main {
+        padding: 82px 10px 70px;
+      }
+      .section {
+        padding: 16px 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- 飘雪容器 -->
+  <div class="snow-container" id="snowContainer"></div>
+
+  <!-- 画廊弹窗 -->
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-inner">
+      <button class="lightbox-close" id="lightboxClose">关闭 ✕</button>
+      <img src="" alt="Christmas" id="lightboxImg" />
+    </div>
+  </div>
+
+  <!-- 顶部导航 -->
+  <header>
+    <div class="nav-inner">
+      <div class="logo">
+        <div class="logo-icon">🎄</div>
+        <div>
+          <div>CHRISTMAS</div>
+          <div style="font-size: 10px; opacity: 0.8;">Holiday Wonderland</div>
+        </div>
+      </div>
+      <nav>
+        <ul>
+          <li><a href="#hero">首页</a></li>
+          <li><a href="#countdown">倒计时</a></li>
+          <li><a href="#wishlist">心愿墙</a></li>
+          <li><a href="#timeline">日程</a></li>
+          <li><a href="#gallery">画廊</a></li>
+          <li><a href="#music">音乐</a></li>
+          <li><a href="#todo">待办</a></li>
+          <li><a href="#contact">留言</a></li>
+        </ul>
+      </nav>
+      <div class="nav-actions">
+        <button class="chip-btn" id="themeToggle">
+          <span>🌓</span><span>切换主题</span>
+        </button>
+        <button class="chip-btn" id="snowToggle">
+          <span>❄️</span><span>开关飘雪</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Hero -->
+    <section id="hero">
+      <div class="hero-text">
+        <div class="hero-content">
+          <div class="hero-badge">
+            <span>✨ 2025 圣诞限定 · 单页展示</span>
+          </div>
+          <h1 class="hero-title">
+            <span>圣诞快乐</span> · 构建你的节日奇境
+          </h1>
+          <p class="hero-subtitle">
+            这是一个集倒计时、心愿墙、圣诞日程、音乐播放、待办清单与飘雪特效于一体的圣诞单页示例，
+            可直接用于练习、改造或作为项目模版。
+          </p>
+          <div class="hero-actions">
+            <button class="btn" data-scroll="#countdown">
+              <span class="btn-icon">🎅</span><span>查看倒计时</span>
+            </button>
+            <button class="btn secondary" data-scroll="#wishlist">
+              <span class="btn-icon">💌</span><span>写下圣诞心愿</span>
+            </button>
+            <button class="btn ghost" data-scroll="#gallery">
+              <span class="btn-icon">📸</span><span>看看氛围图</span>
+            </button>
+          </div>
+          <div class="hero-meta">
+            <span><span class="hero-meta-dot"></span> 实时更新倒计时</span>
+            <span>💾 数据本地保存（localStorage）</span>
+            <span>❄️ 动态飘雪特效可开关</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-card">
+        <div class="hero-card-inner">
+          <div class="hero-card-row">
+            <div class="hero-card-left">
+              <h2>Santa’s Cozy Corner</h2>
+              <p>点亮圣诞树的灯光，写下你的心愿，耐心等待奇迹到来 ✨</p>
+            </div>
+            <div class="tree" id="tree">
+              <div class="tree-layer"></div>
+              <div class="tree-layer"></div>
+              <div class="tree-layer"></div>
+              <div class="tree-trunk"></div>
+              <div class="tree-star">⭐</div>
+              <!-- 装饰灯泡 -->
+              <div class="tree-light"></div>
+              <div class="tree-light"></div>
+              <div class="tree-light"></div>
+              <div class="tree-light"></div>
+              <div class="tree-light"></div>
+            </div>
+          </div>
+          <div class="hero-card-footer">
+            <div class="hero-mini-badges">
+              <div class="mini-badge">🎁 礼物灵感</div>
+              <div class="mini-badge">🎵 氛围音乐</div>
+              <div class="mini-badge">📅 节日日程</div>
+            </div>
+            <div style="font-size: 11px; text-align: right;">
+              点击下方按钮即可快速跳转到对应区域
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 倒计时 -->
+    <section class="section" id="countdown">
+      <div class="section-header">
+        <div class="section-title">
+          <span>⏳</span> 圣诞倒计时
+        </div>
+        <div class="section-subtitle">
+          让我们一起等待 12 月 25 日的钟声敲响
+        </div>
+      </div>
+
+      <div class="countdown-grid">
+        <div class="countdown-item">
+          <div class="countdown-number" id="days">00</div>
+          <div class="countdown-label">天</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="hours">00</div>
+          <div class="countdown-label">小时</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="minutes">00</div>
+          <div class="countdown-label">分钟</div>
+        </div>
+        <div class="countdown-item">
+          <div class="countdown-number" id="seconds">00</div>
+          <div class="countdown-label">秒</div>
+        </div>
+      </div>
+      <div class="countdown-footer" id="countdownInfo">
+        正在计算距离圣诞节的时间…
+      </div>
+    </section>
+
+    <!-- 心愿墙 -->
+    <section class="section" id="wishlist">
+      <div class="section-header">
+        <div class="section-title">
+          <span>💌</span> 圣诞心愿墙
+        </div>
+        <div class="section-subtitle">
+          把你的愿望写下来，或许圣诞老人会路过这里 👀
+        </div>
+      </div>
+
+      <div class="wishlist-layout">
+        <form class="wishlist-form" id="wishlistForm">
+          <div class="form-row">
+            <label for="wishName">你的昵称</label>
+            <input id="wishName" type="text" placeholder="例如：小明 / Emily" required />
+          </div>
+          <div class="form-row">
+            <label for="wishContent">我的圣诞愿望</label>
+            <textarea id="wishContent" placeholder="写下你想要的礼物、想实现的目标或者想对谁说的话…" required></textarea>
+          </div>
+          <div class="form-row form-row-inline">
+            <div class="toggle-group">
+              <label for="wishType">今年我是：</label>
+              <select id="wishType">
+                <option value="nice">乖孩子 😇</option>
+                <option value="naughty">调皮鬼 😈</option>
+              </select>
+            </div>
+            <div class="toggle-group">
+              <input type="checkbox" id="wishPrivate" />
+              <label for="wishPrivate">仅自己可见（只保存在本地）</label>
+            </div>
+          </div>
+          <div style="display: flex; gap: 8px;">
+            <button class="btn" type="submit">
+              <span class="btn-icon">✨</span><span>提交心愿</span>
+            </button>
+            <button class="btn ghost" type="button" id="clearWishes">
+              清空心愿
+            </button>
+          </div>
+        </form>
+
+        <div>
+          <div style="font-size: 13px; margin-bottom: 6px;">
+            最新心愿 ✨（仅保存在你的浏览器中）
+          </div>
+          <div class="wishlist-list" id="wishlistList">
+            <!-- 动态渲染 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 圣诞日程时间线 -->
+    <section class="section" id="timeline">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📅</span> 圣诞节前的小计划
+        </div>
+        <div class="section-subtitle">
+          安排好每一个暖洋洋的瞬间
+        </div>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-bullet"></div>
+          <div class="timeline-title">12 月上旬 · 营造氛围</div>
+          <div class="timeline-meta">布置房间 · 点亮圣诞树 · 选好圣诞歌单</div>
+          <div class="timeline-desc">
+            可以先从换个桌面、挂彩灯、摆个小树开始，慢慢让生活进入圣诞模式。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-bullet"></div>
+          <div class="timeline-title">12 月中旬 · 准备礼物</div>
+          <div class="timeline-meta">为自己 & 为重要的人准备一些小惊喜</div>
+          <div class="timeline-desc">
+            不一定要多贵重，一封手写卡片、一张照片、有记忆的物件，往往更打动人。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-bullet"></div>
+          <div class="timeline-title">12 月 24 日 · 平安夜</div>
+          <div class="timeline-meta">夜宵 · 电影 · 倒数计时</div>
+          <div class="timeline-desc">
+            可以安排一场温馨的电影夜，搭配热可可，和朋友/家人/自己好好放松。
+          </div>
+        </div>
+        <div class="timeline-item">
+          <div class="timeline-bullet"></div>
+          <div class="timeline-title">12 月 25 日 · 圣诞节</div>
+          <div class="timeline-meta">拆礼物 · 拍照片 · 记录一年最后的温暖</div>
+          <div class="timeline-desc">
+            别忘了拍几张“今年的圣诞照”，未来翻到时，会觉得今天真好。
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 画廊 -->
+    <section class="section" id="gallery">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📸</span> 圣诞氛围图集
+        </div>
+        <div class="section-subtitle">
+          这些图片地址可以替换成你自己的素材
+        </div>
+      </div>
+
+      <div class="gallery-grid">
+        <div
+          class="gallery-item"
+          data-label="温暖客厅 · Hot Cocoa"
+          data-src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1543589077-47d81606c1bf?auto=format&fit=crop&w=600&q=60"
+            alt="Christmas"
+          />
+        </div>
+        <div
+          class="gallery-item"
+          data-label="圣诞树 · Night Lights"
+          data-src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1512389142860-9c449e58a543?auto=format&fit=crop&w=600&q=60"
+            alt="Christmas Tree"
+          />
+        </div>
+        <div
+          class="gallery-item"
+          data-label="交换礼物 · Gift Time"
+          data-src="https://images.unsplash.com/photo-1512922124720-5166f2b3333f?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1512922124720-5166f2b3333f?auto=format&fit=crop&w=600&q=60"
+            alt="Gifts"
+          />
+        </div>
+        <div
+          class="gallery-item"
+          data-label="雪夜街道 · Winter Street"
+          data-src="https://images.unsplash.com/photo-1511117833895-4b473c0b1ca2?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1511117833895-4b473c0b1ca2?auto=format&fit=crop&w=600&q=60"
+            alt="Street"
+          />
+        </div>
+        <div
+          class="gallery-item"
+          data-label="姜饼屋 · Gingerbread"
+          data-src="https://images.unsplash.com/photo-1544207240-42884e7fd55e?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1544207240-42884e7fd55e?auto=format&fit=crop&w=600&q=60"
+            alt="Gingerbread"
+          />
+        </div>
+        <div
+          class="gallery-item"
+          data-label="可爱鹿角 · Reindeer"
+          data-src="https://images.unsplash.com/photo-1543709530-dcac245be8c6?auto=format&fit=crop&w=1200&q=80"
+        >
+          <img
+            src="https://images.unsplash.com/photo-1543709530-dcac245be8c6?auto=format&fit=crop&w=600&q=60"
+            alt="Reindeer"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- 音乐 -->
+    <section class="section" id="music">
+      <div class="section-header">
+        <div class="section-title">
+          <span>🎵</span> 圣诞歌单
+        </div>
+        <div class="section-subtitle">
+          这里示范一个简单的本地音乐播放器，你可以替换为自己的 mp3 链接
+        </div>
+      </div>
+
+      <div class="music-layout">
+        <div class="playlist" id="playlist">
+          <!-- 用 JS 动态注入歌曲列表 -->
+        </div>
+        <div class="music-player">
+          <div class="music-player-title">
+            当前播放：<span id="currentSongTitle">无</span>
+          </div>
+          <div style="font-size: 11px; color: var(--text-muted);">
+            提示：出于示例原因，这里默认使用占位地址，你可以在 JS 里把歌曲链接替换成自己的 mp3。
+          </div>
+          <audio controls id="audioPlayer">
+            <source src="" type="audio/mpeg" />
+            您的浏览器不支持 audio 标签。
+          </audio>
+        </div>
+      </div>
+    </section>
+
+    <!-- 待办清单 -->
+    <section class="section" id="todo">
+      <div class="section-header">
+        <div class="section-title">
+          <span>✅</span> 圣诞待办清单
+        </div>
+        <div class="section-subtitle">
+          把要做的事排一排，就不会忘记啦
+        </div>
+      </div>
+
+      <div class="todo-layout">
+        <div>
+          <div style="font-size: 13px;">新增一条待办</div>
+          <div class="todo-input">
+            <input id="todoInput" type="text" placeholder="例如：给朋友写圣诞卡片" />
+            <button class="btn" type="button" id="addTodoBtn">添加</button>
+          </div>
+          <div style="margin-top: 6px; display: flex; gap: 6px;">
+            <button class="btn ghost" type="button" id="clearDoneTodos">
+              清除已完成
+            </button>
+            <button class="btn ghost" type="button" id="clearAllTodos">
+              清空全部
+            </button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px; margin-bottom: 6px;">
+            我的圣诞任务：
+          </div>
+          <div class="todo-list" id="todoList">
+            <!-- JS 注入 -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 联系 / 留言 -->
+    <section class="section" id="contact">
+      <div class="section-header">
+        <div class="section-title">
+          <span>📮</span> 留下你的祝福
+        </div>
+        <div class="section-subtitle">
+          可用作“联系我”“留言板”等区域
+        </div>
+      </div>
+
+      <div class="contact-grid">
+        <div>
+          <div class="contact-note">
+            你可以把这里扩展成真正的表单（通过后端或第三方表单服务提交），
+            当前示例仅做静态展示：包括姓名、邮箱和想说的话等。
+          </div>
+          <div class="wishlist-form" style="margin-top: 8px;">
+            <div class="form-row">
+              <label>姓名 / Name</label>
+              <input type="text" placeholder="Your name" />
+            </div>
+            <div class="form-row">
+              <label>邮箱 / Email</label>
+              <input type="text" placeholder="you@example.com" />
+            </div>
+            <div class="form-row">
+              <label>想说的话 / Message</label>
+              <textarea placeholder="在这里写下你的圣诞祝福或感想～"></textarea>
+            </div>
+            <button class="btn" type="button">
+              目前是静态按钮（示例）
+            </button>
+          </div>
+        </div>
+        <div>
+          <div style="font-size: 13px;">页面特点小结：</div>
+          <div class="contact-highlights">
+            <div class="highlight-card">
+              🎄 使用
+              <strong>原生 HTML / CSS / JS</strong>
+              ，无需任何第三方库。
+            </div>
+            <div class="highlight-card">
+              💾 心愿墙 & 待办清单数据使用
+              <strong>localStorage</strong>
+              持久化，刷新页面不会丢失。
+            </div>
+            <div class="highlight-card">
+              ❄️ 自带
+              <strong>飘雪特效 + 主题切换 + 平滑滚动 + 返回顶部</strong>
+              等交互，可按需删减或改造。
+            </div>
+            <div class="highlight-card">
+              🔧 你可以很方便地改成 React / Vue 或拆分成组件，用于更大的项目。
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer>
+      © <span id="year"></span> Christmas Wonderland · 祝你圣诞快乐，天天都有好心情 🎁
+    </footer>
+  </main>
+
+  <!-- 浮动工具按钮 -->
+  <div class="floating-tools">
+    <button class="floating-btn hidden" id="backToTop">
+      ⬆️ 返回顶部
+    </button>
+  </div>
+
+  <script>
+    // 工具函数：本地存储
+    const storage = {
+      get(key, defaultValue) {
+        try {
+          const raw = localStorage.getItem(key);
+          if (!raw) return defaultValue;
+          return JSON.parse(raw);
+        } catch (e) {
+          return defaultValue;
+        }
+      },
+      set(key, value) {
+        try {
+          localStorage.setItem(key, JSON.stringify(value));
+        } catch (e) {
+          console.warn("localStorage error:", e);
+        }
+      }
+    };
+
+    // 1. 圣诞倒计时
+    function updateCountdown() {
+      const now = new Date();
+      let year = now.getFullYear();
+      let christmas = new Date(year, 11, 25, 0, 0, 0); // 12 为 11 (0-based)
+      if (now > christmas) {
+        christmas = new Date(year + 1, 11, 25, 0, 0, 0);
+      }
+      const diff = christmas - now;
+      const sec = Math.floor(diff / 1000);
+      if (sec <= 0) {
+        document.getElementById("countdownInfo").textContent =
+          "圣诞节到了！祝你圣诞快乐 🎄";
+        ["days", "hours", "minutes", "seconds"].forEach((id) => {
+          document.getElementById(id).textContent = "00";
+        });
+        return;
+      }
+      const d = Math.floor(sec / (3600 * 24));
+      const h = Math.floor((sec % (3600 * 24)) / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      document.getElementById("days").textContent = String(d).padStart(2, "0");
+      document.getElementById("hours").textContent = String(h).padStart(2, "0");
+      document.getElementById("minutes").textContent = String(m).padStart(2, "0");
+      document.getElementById("seconds").textContent = String(s).padStart(2, "0");
+
+      const yearTarget = christmas.getFullYear();
+      document.getElementById("countdownInfo").textContent =
+        `距离 ${yearTarget} 年圣诞节（12 月 25 日）还有 ${d} 天 ${h} 小时 ${m} 分钟`;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    // 2. Hero 按钮平滑滚动
+    document.querySelectorAll("[data-scroll], header nav a").forEach((el) => {
+      el.addEventListener("click", (e) => {
+        const target = el.getAttribute("data-scroll") || el.getAttribute("href");
+        if (!target || !target.startsWith("#")) return;
+        e.preventDefault();
+        const section = document.querySelector(target);
+        if (section) {
+          section.scrollIntoView({ behavior: "smooth", block: "start" });
+        }
+      });
+    });
+
+    // 3. 飘雪效果
+    const snowContainer = document.getElementById("snowContainer");
+    let snowEnabled = true;
+    function createSnowflakes() {
+      const count = 70;
+      snowContainer.innerHTML = "";
+      const symbols = ["❄", "❅", "✦", "✧"];
+      for (let i = 0; i < count; i++) {
+        const span = document.createElement("div");
+        span.className = "snowflake";
+        span.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+        const size = 10 + Math.random() * 14;
+        span.style.fontSize = size + "px";
+        span.style.left = Math.random() * 100 + "vw";
+        const duration = 9 + Math.random() * 9;
+        span.style.animationDuration = duration + "s";
+        span.style.animationDelay = Math.random() * 10 + "s";
+        span.style.setProperty("--x-move", (Math.random() * 60 - 30) + "px");
+        snowContainer.appendChild(span);
+      }
+    }
+    createSnowflakes();
+
+    document.getElementById("snowToggle").addEventListener("click", () => {
+      snowEnabled = !snowEnabled;
+      snowContainer.style.display = snowEnabled ? "block" : "none";
+    });
+
+    // 4. 返回顶部按钮 & 滚动监听
+    const backToTopBtn = document.getElementById("backToTop");
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 400) {
+        backToTopBtn.classList.remove("hidden");
+      } else {
+        backToTopBtn.classList.add("hidden");
+      }
+    });
+    backToTopBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+
+    // 5. 主题切换
+    const themeToggleBtn = document.getElementById("themeToggle");
+    const THEME_KEY = "christmas-theme";
+    function applyTheme(theme) {
+      if (theme === "dark") {
+        document.body.classList.add("dark-theme");
+      } else {
+        document.body.classList.remove("dark-theme");
+      }
+    }
+    const storedTheme = storage.get(THEME_KEY, "dark");
+    applyTheme(storedTheme);
+    themeToggleBtn.addEventListener("click", () => {
+      const isDark = document.body.classList.toggle("dark-theme");
+      storage.set(THEME_KEY, isDark ? "dark" : "light");
+    });
+
+    // 6. 心愿墙
+    const WISH_KEY = "christmas-wishes";
+    const wishlistForm = document.getElementById("wishlistForm");
+    const wishlistList = document.getElementById("wishlistList");
+    const clearWishesBtn = document.getElementById("clearWishes");
+
+    function renderWishes() {
+      const wishes = storage.get(WISH_KEY, []);
+      wishlistList.innerHTML = "";
+      if (!wishes.length) {
+        wishlistList.innerHTML =
+          '<div style="font-size:12px; color:var(--text-muted);">还没有心愿，快来写下第一个吧 ✨</div>';
+        return;
+      }
+      wishes.slice().reverse().forEach((wish) => {
+        const card = document.createElement("div");
+        card.className = "wish-card";
+        const header = document.createElement("div");
+        header.className = "wish-header";
+        const name = document.createElement("div");
+        name.className = "wish-name";
+        name.textContent = wish.name || "匿名";
+        const badge = document.createElement("div");
+        badge.className = "wish-badge " + (wish.type === "naughty" ? "naughty" : "");
+        badge.textContent = wish.type === "naughty" ? "调皮鬼 😈" : "乖孩子 😇";
+        header.appendChild(name);
+        header.appendChild(badge);
+        const text = document.createElement("div");
+        text.className = "wish-text";
+        text.textContent = wish.content;
+        const time = document.createElement("div");
+        time.className = "wish-time";
+        time.textContent = wish.time;
+        card.appendChild(header);
+        card.appendChild(text);
+        card.appendChild(time);
+        wishlistList.appendChild(card);
+      });
+    }
+
+    wishlistForm.addEventListener("submit", (e) => {
+      e.preventDefault();
+      const name = document.getElementById("wishName").value.trim();
+      const content = document.getElementById("wishContent").value.trim();
+      const type = document.getElementById("wishType").value;
+      const isPrivate = document.getElementById("wishPrivate").checked;
+      if (!content) return;
+      const wishes = storage.get(WISH_KEY, []);
+      wishes.push({
+        name,
+        content,
+        type,
+        isPrivate,
+        time: new Date().toLocaleString()
+      });
+      storage.set(WISH_KEY, wishes);
+      wishlistForm.reset();
+      renderWishes();
+    });
+
+    clearWishesBtn.addEventListener("click", () => {
+      if (confirm("确定要清空所有已保存的心愿吗？（仅本地存储）")) {
+        storage.set(WISH_KEY, []);
+        renderWishes();
+      }
+    });
+
+    renderWishes();
+
+    // 7. 简单音乐播放器
+    const songs = [
+      {
+        title: "Jingle Bells (Demo)",
+        artist: "Your Artist",
+        tag: "经典 · 欢快",
+        url: "" // 在这里填你自己的 mp3 地址
+      },
+      {
+        title: "Silent Night (Demo)",
+        artist: "Your Artist",
+        tag: "安静 · 温柔",
+        url: ""
+      },
+      {
+        title: "We Wish You a Merry Christmas (Demo)",
+        artist: "Your Artist",
+        tag: "合唱 · 氛围",
+        url: ""
+      }
+    ];
+
+    const playlistEl = document.getElementById("playlist");
+    const audioPlayer = document.getElementById("audioPlayer");
+    const currentSongTitleEl = document.getElementById("currentSongTitle");
+    let currentIndex = 0;
+
+    function renderPlaylist() {
+      playlistEl.innerHTML = "";
+      songs.forEach((song, index) => {
+        const div = document.createElement("div");
+        div.className = "song" + (index === currentIndex ? " active" : "");
+        const main = document.createElement("div");
+        main.className = "song-main";
+        const title = document.createElement("div");
+        title.className = "song-title";
+        title.textContent = song.title;
+        const artist = document.createElement("div");
+        artist.className = "song-artist";
+        artist.textContent = song.artist;
+        main.appendChild(title);
+        main.appendChild(artist);
+        const tag = document.createElement("div");
+        tag.className = "song-tag";
+        tag.textContent = song.tag;
+        div.appendChild(main);
+        div.appendChild(tag);
+        div.addEventListener("click", () => playSong(index));
+        playlistEl.appendChild(div);
+      });
+    }
+
+    function playSong(index) {
+      currentIndex = index;
+      const song = songs[index];
+      renderPlaylist();
+      currentSongTitleEl.textContent = song.title || "自定义歌曲";
+      if (song.url) {
+        audioPlayer.src = song.url;
+        audioPlayer.play().catch(() => {});
+      } else {
+        audioPlayer.pause();
+        audioPlayer.currentTime = 0;
+        alert("这是示例歌曲。请在 JS 代码中的 songs 数组里填入你自己的 mp3 地址。");
+      }
+    }
+
+    renderPlaylist();
+    currentSongTitleEl.textContent = "点击左侧歌曲开始播放";
+
+    // 8. 待办清单
+    const TODO_KEY = "christmas-todos";
+    const todoInput = document.getElementById("todoInput");
+    const addTodoBtn = document.getElementById("addTodoBtn");
+    const todoListEl = document.getElementById("todoList");
+    const clearDoneTodosBtn = document.getElementById("clearDoneTodos");
+    const clearAllTodosBtn = document.getElementById("clearAllTodos");
+
+    function renderTodos() {
+      const todos = storage.get(TODO_KEY, []);
+      todoListEl.innerHTML = "";
+      if (!todos.length) {
+        todoListEl.innerHTML =
+          '<div style="font-size:12px; color:var(--text-muted);">目前还没有任务，先给自己安排一个小目标吧 🎯</div>';
+        return;
+      }
+      todos.forEach((todo, index) => {
+        const item = document.createElement("div");
+        item.className = "todo-item" + (todo.done ? " done" : "");
+        const checkbox = document.createElement("input");
+        checkbox.type = "checkbox";
+        checkbox.checked = todo.done;
+        checkbox.addEventListener("change", () => {
+          const t = storage.get(TODO_KEY, []);
+          if (t[index]) {
+            t[index].done = !t[index].done;
+            storage.set(TODO_KEY, t);
+            renderTodos();
+          }
+        });
+        const text = document.createElement("div");
+        text.textContent = todo.text;
+        text.style.flex = "1";
+        const delBtn = document.createElement("button");
+        delBtn.textContent = "删除";
+        delBtn.addEventListener("click", () => {
+          const t = storage.get(TODO_KEY, []);
+          t.splice(index, 1);
+          storage.set(TODO_KEY, t);
+          renderTodos();
+        });
+        item.appendChild(checkbox);
+        item.appendChild(text);
+        item.appendChild(delBtn);
+        todoListEl.appendChild(item);
+      });
+    }
+
+    function addTodo() {
+      const text = todoInput.value.trim();
+      if (!text) return;
+      const todos = storage.get(TODO_KEY, []);
+      todos.push({ text, done: false });
+      storage.set(TODO_KEY, todos);
+      todoInput.value = "";
+      renderTodos();
+    }
+
+    addTodoBtn.addEventListener("click", addTodo);
+    todoInput.addEventListener("keydown", (e) => {
+      if (e.key === "Enter") {
+        e.preventDefault();
+        addTodo();
+      }
+    });
+
+    clearDoneTodosBtn.addEventListener("click", () => {
+      const todos = storage.get(TODO_KEY, []);
+      const filtered = todos.filter((t) => !t.done);
+      storage.set(TODO_KEY, filtered);
+      renderTodos();
+    });
+
+    clearAllTodosBtn.addEventListener("click", () => {
+      if (confirm("确定要清空所有待办吗？")) {
+        storage.set(TODO_KEY, []);
+        renderTodos();
+      }
+    });
+
+    renderTodos();
+
+    // 9. 画廊弹窗
+    const lightbox = document.getElementById("lightbox");
+    const lightboxImg = document.getElementById("lightboxImg");
+    const lightboxClose = document.getElementById("lightboxClose");
+
+    document.querySelectorAll(".gallery-item").forEach((item) => {
+      item.addEventListener("click", () => {
+        const src = item.getAttribute("data-src");
+        if (!src) return;
+        lightboxImg.src = src;
+        lightbox.classList.add("active");
+      });
+    });
+
+    lightboxClose.addEventListener("click", () => {
+      lightbox.classList.remove("active");
+      lightboxImg.src = "";
+    });
+
+    lightbox.addEventListener("click", (e) => {
+      if (e.target === lightbox) {
+        lightbox.classList.remove("active");
+        lightboxImg.src = "";
+      }
+    });
+
+    // 10. 页脚年份
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
