@@ -1,0 +1,36 @@
+{
+  "name": "christmas-wonderland",
+  "version": "1.0.0",
+  "description": "Christmas Wonderland - A festive single-page website with complete backend support",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "init-db": "mysql -u root -p < database/schema.sql"
+  },
+  "keywords": [
+    "christmas",
+    "holiday",
+    "nodejs",
+    "express",
+    "mysql",
+    "rest-api"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "jsonwebtoken": "^9.0.2",
+    "multer": "^2.0.2",
+    "mysql2": "^3.6.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
