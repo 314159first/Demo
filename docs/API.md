@@ -504,7 +504,20 @@ All error responses follow this format:
 
 ## Rate Limiting
 
-Currently, there is no rate limiting implemented. Consider adding rate limiting for production use.
+Rate limiting is implemented to protect the API from abuse:
+
+| Endpoint Type | Limit | Window |
+|--------------|-------|--------|
+| General API  | 100 requests | 15 minutes |
+| Authentication | 10 requests | 15 minutes |
+
+When rate limit is exceeded, you'll receive a `429 Too Many Requests` response:
+
+```json
+{
+  "error": "Too many requests, please try again later."
+}
+```
 
 ---
 

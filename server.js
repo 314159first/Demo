@@ -13,6 +13,7 @@ const mysql = require('mysql2/promise');
 const multer = require('multer');
 const path = require('path');
 const fs = require('fs');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 
@@ -20,10 +21,18 @@ const app = express();
 // Configuration
 // ============================================
 const PORT = process.env.PORT || 3000;
-const JWT_SECRET = process.env.JWT_SECRET || 'christmas-wonderland-secret-key';
 const JWT_EXPIRES_IN = '7d';
 const SALT_ROUNDS = 10;
 const MAX_FILE_SIZE = parseInt(process.env.MAX_FILE_SIZE) || 5 * 1024 * 1024; // 5MB default
+const MAX_FILE_SIZE_MB = Math.round(MAX_FILE_SIZE / (1024 * 1024));
+
+// JWT Secret validation - require explicit secret in production
+const JWT_SECRET = process.env.JWT_SECRET;
+if (!JWT_SECRET && process.env.NODE_ENV === 'production') {
+  console.error('❌ FATAL: JWT_SECRET must be set in production environment');
+  process.exit(1);
+}
+const jwtSecret = JWT_SECRET || 'christmas-wonderland-dev-secret-key';
 
 // ============================================
 // Database Connection Pool
@@ -57,6 +66,30 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
+
+// ============================================
+// Rate Limiting
+// ============================================
+// General rate limit for all requests
+const generalLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  message: { error: 'Too many requests, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Strict rate limit for authentication endpoints
+const authLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 10, // Limit each IP to 10 auth requests per windowMs
+  message: { error: 'Too many authentication attempts, please try again later.' },
+  standardHeaders: true,
+  legacyHeaders: false
+});
+
+// Apply general rate limit to all API routes
+app.use('/api/', generalLimiter);
 
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, 'public', 'uploads');
@@ -102,7 +135,7 @@ function authenticateToken(req, res, next) {
     return res.status(401).json({ error: 'Access token required' });
   }
 
-  jwt.verify(token, JWT_SECRET, (err, user) => {
+  jwt.verify(token, jwtSecret, (err, user) => {
     if (err) {
       return res.status(403).json({ error: 'Invalid or expired token' });
     }
@@ -117,7 +150,7 @@ function optionalAuth(req, res, next) {
   const token = authHeader && authHeader.split(' ')[1];
 
   if (token) {
-    jwt.verify(token, JWT_SECRET, (err, user) => {
+    jwt.verify(token, jwtSecret, (err, user) => {
       if (!err) {
         req.user = user;
       }
@@ -134,7 +167,7 @@ function errorHandler(err, req, res, next) {
   
   if (err instanceof multer.MulterError) {
     if (err.code === 'LIMIT_FILE_SIZE') {
-      return res.status(400).json({ error: 'File too large. Maximum size is 5MB.' });
+      return res.status(400).json({ error: `File too large. Maximum size is ${MAX_FILE_SIZE_MB}MB.` });
     }
     return res.status(400).json({ error: err.message });
   }
@@ -159,7 +192,7 @@ app.get('/api/health', (req, res) => {
 // ============================================
 
 // POST /api/auth/register - User registration
-app.post('/api/auth/register', async (req, res, next) => {
+app.post('/api/auth/register', authLimiter, async (req, res, next) => {
   try {
     const { username, email, password } = req.body;
 
@@ -194,7 +227,7 @@ app.post('/api/auth/register', async (req, res, next) => {
     // Generate token
     const token = jwt.sign(
       { id: result.insertId, username, email },
-      JWT_SECRET,
+      jwtSecret,
       { expiresIn: JWT_EXPIRES_IN }
     );
 
@@ -209,7 +242,7 @@ app.post('/api/auth/register', async (req, res, next) => {
 });
 
 // POST /api/auth/login - User login
-app.post('/api/auth/login', async (req, res, next) => {
+app.post('/api/auth/login', authLimiter, async (req, res, next) => {
   try {
     const { username, password } = req.body;
 
@@ -238,7 +271,7 @@ app.post('/api/auth/login', async (req, res, next) => {
     // Generate token
     const token = jwt.sign(
       { id: user.id, username: user.username, email: user.email },
-      JWT_SECRET,
+      jwtSecret,
       { expiresIn: JWT_EXPIRES_IN }
     );
 
