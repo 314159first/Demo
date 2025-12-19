@@ -69,12 +69,12 @@ const dateTransformers = {
     }
   },
 
-  // Format date for display
-  toDisplayDate: (date) => {
+  // Format date for display (using international format)
+  toDisplayDate: (date, locale = 'en-US') => {
     if (!date) return null;
     try {
       const d = date instanceof Date ? date : new Date(date);
-      return isNaN(d.getTime()) ? null : d.toLocaleDateString('zh-CN');
+      return isNaN(d.getTime()) ? null : d.toLocaleDateString(locale);
     } catch {
       return null;
     }

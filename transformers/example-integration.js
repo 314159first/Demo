@@ -183,7 +183,8 @@ app.get('/api/todos', async (req, res, next) => {
     
     // Optional: filter by completed status
     if (req.query.completed !== undefined) {
-      const completed = validators.toBool(req.query.completed);
+      const { boolean } = require('./index');
+      const completed = boolean.toBool(req.query.completed);
       query += ' AND completed = ?';
       params.push(completed ? 1 : 0);
     }
