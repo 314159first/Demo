@@ -233,7 +233,7 @@ const i18n = {
       'timeline.event4.date': 'Dec 25',
       'timeline.event4.title': 'Christmas Day',
       'timeline.event4.meta': 'Enjoy holiday · Reunite with loved ones · Capture moments',
-      'timeline.event4.desc': 'Don\'t forget to take some "this year\'s Christmas photos" - you\'ll cherish them in the future.',
+      'timeline.event4.desc': "Don't forget to take some \"this year's Christmas photos\" - you'll cherish them in the future.",
       
       // Gallery section
       'gallery.title': '📸 Gallery',
