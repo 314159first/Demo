@@ -735,6 +735,13 @@ app.post('/api/stats/visit', async (req, res, next) => {
 });
 
 // ============================================
+// Serve index.html for root route
+// ============================================
+app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'index.html'));
+});
+
+// ============================================
 // Error Handler
 // ============================================
 app.use(errorHandler);
