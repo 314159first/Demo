@@ -39,7 +39,10 @@ const i18n = {
       'hero.description': '这是一个集倒计时、心愿墙、圣诞日程、音乐播放、待办清单与飘雪特效于一体的圣诞单页示例，适合展示或二次开发。',
       'hero.btn.countdown': '查看倒计时',
       'hero.btn.wishes': '写下圣诞心愿',
+      'hero.btn.gallery': '看看氛围图',
       'hero.meta.countdown': '实时更新倒计时',
+      'hero.meta.localstorage': '💾 数据本地保存（localStorage）',
+      'hero.meta.snowflake': '❄️ 动态飘雪特效可开关',
       'hero.meta.wishes': '心愿墙留言',
       'hero.meta.songs': '圣诞歌曲',
       
@@ -177,7 +180,10 @@ const i18n = {
       'hero.description': 'An all-in-one Christmas showcase featuring countdown timer, wish wall, timeline, music player, todo list, and snowfall effects - perfect for display or further development.',
       'hero.btn.countdown': 'View Countdown',
       'hero.btn.wishes': 'Make a Wish',
+      'hero.btn.gallery': 'View Gallery',
       'hero.meta.countdown': 'Real-time countdown',
+      'hero.meta.localstorage': '💾 Data stored locally (localStorage)',
+      'hero.meta.snowflake': '❄️ Toggle snowflake effects',
       'hero.meta.wishes': 'Wish wall messages',
       'hero.meta.songs': 'Christmas songs',
       
